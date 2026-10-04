@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Drive</title>
+  <link rel="icon" href="https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png">
+  <script src="/uv/uv.bundle.js"></script>
+  <script src="/uv/uv.config.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: #0f172a;
+      font-family: system-ui, -apple-system, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      overflow: hidden;
+    }
+
+    .card {
+      background: #1e293b;
+      padding: 2.5rem;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      text-align: center;
+    }
+
+    button {
+      background-color: #3b82f6;
+      color: white;
+      border: none;
+      padding: 0.85rem 1.75rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    button:hover {
+      background-color: #2563eb;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1 style="margin-bottom: 1rem;">Shell Shockers Launcher</h1>
+    <button onclick="launchShellShockers()">Launch Game</button>
+  </div>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/uv.sw.js', {
+        scope: __uv$config.prefix
+      });
+    }
+
+    function launchShellShockers() {
+      const proxiedUrl = __uv$config.prefix + __uv$config.encodeUrl('https://shellshock.io/');
+
+      const win = window.open('about:blank', '_blank');
+      if (win) {
+        win.document.title = 'Google Drive';
+
+        const favicon = win.document.createElement('link');
+        favicon.rel = 'icon';
+        favicon.href = 'https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png';
+        win.document.head.appendChild(favicon);
+
+        win.document.body.style.margin = '0';
+        win.document.body.style.height = '100vh';
+        win.document.body.style.overflow = 'hidden';
+
+        const iframe = win.document.createElement('iframe');
+        iframe.src = proxiedUrl;
+        iframe.style.cssText = 'width:100vw; height:100vh; border:none; outline:none; display:block;';
+        iframe.allow = 'autoplay; fullscreen; pointer-lock; keyboard';
+
+        win.document.body.appendChild(iframe);
+      } else {
+        alert('Please allow popups to open the game!');
+      }
+    }
+  </script>
+
+</body>
+</html>
